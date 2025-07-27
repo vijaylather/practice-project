@@ -1,12 +1,11 @@
 package org.example.design.patterns.decorator;
 
 public class ChessBurst extends ToppingDecorator{
-    BasePizza basePizza;
     ChessBurst (BasePizza basePizza) {
-        this.basePizza = basePizza;
+        super(basePizza);
     }
     @Override
     public int cost() {
-        return this.basePizza.cost() + 50;
+        return super.cost() + 30;
     }
 }
