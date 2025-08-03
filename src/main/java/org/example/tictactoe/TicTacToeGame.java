@@ -34,7 +34,7 @@ public class TicTacToeGame {
                 return;
             }
             if(board.numberOfEmptyCells==0){
-                System.out.print("Game is a tie");
+                System.out.println("Game is a tie");
                 board.displayBoard();
                 return;
             }
