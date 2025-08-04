@@ -1,4 +1,4 @@
-package org.example.tictactoe;
+package org.example.design.tictactoe;
 
 public enum PieceType {
     X,

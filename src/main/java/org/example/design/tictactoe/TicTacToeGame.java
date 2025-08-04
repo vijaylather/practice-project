@@ -1,4 +1,4 @@
-package org.example.tictactoe;
+package org.example.design.tictactoe;
 
 import java.util.Deque;
 import java.util.Scanner;
