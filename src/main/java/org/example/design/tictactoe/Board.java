@@ -47,7 +47,7 @@ public class Board {
         for(int i=0;i<size;++i){
             type = board[i][0];
             if(type == null){
-                break;
+                continue;
             }
             flag = true;
             for(int j=1;j<size;++j){
@@ -64,7 +64,7 @@ public class Board {
         for(int i=0;i<size;++i){
             type = board[0][i];
             if(type == null){
-                break;
+                continue;
             }
             flag = true;
             for(int j=1;j<size;++j){
