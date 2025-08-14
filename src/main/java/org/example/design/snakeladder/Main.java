@@ -9,7 +9,7 @@ public class Main {
         Deque<Player> players = new LinkedList<>();
         players.add(new Player("Vijay"));
         players.add(new Player("Krutika"));
-        Game snakeLadderGame = new Game(players, 5, 1);
+        Game snakeLadderGame = new Game(players, 7, 1);
         snakeLadderGame.start();
     }
 }

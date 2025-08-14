@@ -5,11 +5,12 @@ import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Board {
-    int size = 5;
+    int size;
     Cell[][] board;
     Set<Integer> uniqueLocation = new HashSet<>();
 
     Board(int size){
+        this.size = size;
         this.board = new Cell[size][size];
         for(int i=0;i<size;i++) {
             for(int j=0; j<size;j++) {
