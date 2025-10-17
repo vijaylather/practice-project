@@ -1,0 +1,51 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+void buildTree(int idx,int low,int high,vector<int>& segTree,vector<int>& nums){
+    if(low == high){
+        segTree[idx] = nums[low];
+        return;
+    }
+
+    int mid = (low + high) >> 1;
+    buildTree(2*idx+1,low,mid,segTree,nums);
+    buildTree(2*idx+2,mid+1,high,segTree,nums);
+    segTree[idx] = min(segTree[2*idx+1],segTree[2*idx+2]);
+    return;
+}
+
+int queryTree(int idx,int low,int high,int l,int r,vector<int>& segTree){
+    if(low>r || high<l){
+        return INT_MAX;
+    }
+
+    if(l<=low && r>=high){
+        return segTree[idx];
+    }
+
+    int mid = (low + high) >> 1;
+    int left = queryTree(2*idx+1,low,mid,l,r,segTree);
+    int right = queryTree(2*idx+2,mid+1,high,l,r,segTree);
+    return min(left,right);
+}
+
+
+int main()
+{
+    int n,q;
+    cin >> n >> q;
+    vector<int> nums(n,0);
+    for(int i=0;i<n;++i){
+        cin >> nums[i];
+    }
+
+    vector<int> segTree(4*n,0);
+    buildTree(0,0,n-1,segTree,nums);
+
+    while(q--){
+        int l,r;
+        cin >> l >> r;
+        cout << queryTree(0,0,n-1,l-1,r-1,segTree) << endl;
+    }
+    return 0;
+}

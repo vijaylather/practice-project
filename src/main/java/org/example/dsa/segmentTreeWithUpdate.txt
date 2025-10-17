@@ -1,0 +1,74 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+void buildTree(int idx,int low,int high,vector<long long>& segTree,vector<long long>& nums){
+    if(low == high){
+        segTree[idx] = nums[low];
+        return;
+    }
+
+    int mid = (low + high) >> 1;
+    buildTree(2*idx+1,low,mid,segTree,nums);
+    buildTree(2*idx+2,mid+1,high,segTree,nums);
+    segTree[idx] = segTree[2*idx+1] + segTree[2*idx+2];
+    return;
+}
+
+long long queryTree(int idx,int low,int high,int l,int r,vector<long long>& segTree){
+    if(low>r || high<l){
+        return 0;
+    }
+
+    if(l<=low && r>=high){
+        return segTree[idx];
+    }
+
+    int mid = (low + high) >> 1;
+    long long left = queryTree(2*idx+1,low,mid,l,r,segTree);
+    long long right = queryTree(2*idx+2,mid+1,high,l,r,segTree);
+    return left + right;
+}
+
+void update(int idx,int low,int high,int i,int val,vector<long long>& segTree){
+    if(low == high){
+        segTree[idx] = (long long) val;
+        return;
+    }
+
+    int mid = (low + high) >> 1;
+    if(i<=mid){
+        update(2*idx+1,low,mid,i,val,segTree);
+    }
+    else{
+        update(2*idx+2,mid+1,high,i,val,segTree);
+    }
+    segTree[idx] = segTree[2*idx+1] + segTree[2*idx+2];
+    return;
+}
+
+
+int main()
+{
+    int n,q;
+    cin >> n >> q;
+    vector<long long> nums(n,0);
+    for(int i=0;i<n;++i){
+        cin >> nums[i];
+    }
+
+    vector<long long> segTree(4*n,(long long)0);
+    buildTree(0,0,n-1,segTree,nums);
+
+
+    while(q--){
+        int a, b, c;
+        cin >> a >> b >> c;
+        if(a==1){
+            update(0,0,n-1,b-1,c,segTree);
+        }
+        else{
+            cout << queryTree(0,0,n-1,b-1,c-1,segTree) << endl;
+        }
+    }
+    return 0;
+}
