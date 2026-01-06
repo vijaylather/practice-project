@@ -1,0 +1,89 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+void buildTree(int idx,int low,int high,vector<long long>& segTree,vector<long long>& nums){
+    if(low == high){
+        segTree[idx] = nums[low];
+        return;
+    }
+
+    int mid = (low + high) >> 1;
+    buildTree(2*idx+1,low,mid,segTree,nums);
+    buildTree(2*idx+2,mid+1,high,segTree,nums);
+    return;
+}
+
+long long queryTree(int idx,int low,int high,int k,vector<long long>& segTree, vector<long long>& lazy){
+    if(lazy[idx]!=0){
+        segTree[idx] += lazy[idx];
+        if(low != high){
+            lazy[2*idx+1] += lazy[idx];
+            lazy[2*idx+2] += lazy[idx];
+        }
+        lazy[idx] = 0;
+    }
+
+    if(low == high){
+        return segTree[idx];
+    }
+
+    int mid = (low + high) >> 1;
+    if(k<=mid){
+        return queryTree(2*idx+1,low,mid,k,segTree,lazy);
+    }
+    return queryTree(2*idx+2,mid+1,high,k,segTree,lazy);
+}
+
+void update(int idx,int low,int high,int l,int r,int val,vector<long long>& segTree, vector<long long>& lazy){
+    if(lazy[idx]!=0){
+        segTree[idx] += lazy[idx];
+        if(low != high){
+            lazy[2*idx+1] += lazy[idx];
+            lazy[2*idx+2] += lazy[idx];
+        }
+        lazy[idx] = 0;
+    }
+
+    if(low>r || high<l){
+        return;
+    }
+
+    if(low>=l && high<=r){
+        lazy[idx] += val;
+        return;
+    }
+
+    int mid = (low + high) >> 1;
+    update(2*idx+1,low,mid,l,r,val,segTree,lazy);
+    update(2*idx+2,mid+1,high,l,r,val,segTree,lazy);
+    return;
+}
+
+
+int main()
+{
+    int n,q;
+    cin >> n >> q;
+    vector<long long> nums(n,0);
+    for(int i=0;i<n;++i){
+        cin >> nums[i];
+    }
+
+    vector<long long> segTree(4*n,(long long)0);
+    vector<long long> lazy(4*n,(long long)0);
+    buildTree(0,0,n-1,segTree,nums);
+
+    while(q--){
+        int a, b, c, d;
+        cin >> a;
+        if(a==1){
+            cin >> b >> c >> d;
+            update(0,0,n-1,b-1,c-1,d,segTree,lazy);
+        }
+        else{
+            cin >> b;
+            cout << queryTree(0,0,n-1,b-1,segTree,lazy) << endl;
+        }
+    }
+    return 0;
+}

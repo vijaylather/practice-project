@@ -6,6 +6,6 @@ public class ChessBurst extends ToppingDecorator{
     }
     @Override
     public int cost() {
-        return super.cost() + 30;
+        return this.basePizza.cost() + 30;
     }
 }
