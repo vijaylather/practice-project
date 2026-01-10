@@ -2,15 +2,17 @@ package org.example.java;
 
 import java.util.*;
 
-class Pair {
-    int count;
-    char c;
-    Pair(int _count, char _c){
-        count = _count;
-        c = _c;
-    }
-}
 public class MapPractice {
+
+    private static class Pair {
+        int count;
+        char c;
+        Pair(int _count, char _c){
+            count = _count;
+            c = _c;
+        }
+    }
+
     public static void main (String[] args) {
         char[] tasks = {'A', 'A', 'B', 'A', 'B'};
         Map<Character, Integer> umap = new HashMap<>();
